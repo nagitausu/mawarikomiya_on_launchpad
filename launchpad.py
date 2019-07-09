@@ -2,6 +2,7 @@ import rtmidi2
 import time
 
 MAX_C = 63; MIN_C = 0
+OFFSET = 1
 
 class Launchpad():
 
@@ -42,11 +43,18 @@ class Launchpad():
                 x = 0
                 y = msg[1] - 104
             else:
-                x = (99 - msg[1]) // 10
+                x = (99 - msg[1]) // 10 - OFFSET
                 y = (msg[1] - 1) % 10
             return [x, y, msg[2] // 127]
         else:
             return None
+
+    def LedScrollText(self, text):
+        # TODO: Fix midi library to take array for send_sysex()
+        if text == "YOU WIN!!":
+            self.midi_out.send_sysex(0, 32, 41, 2, 4, 20, 79, 0, 4, 89, 79, 85, 32, 87, 73, 78, 33)
+        elif text == "YOU LOSE...":
+            self.midi_out.send_sysex(0, 32, 41, 2, 4, 20, 72, 0, 4, 89, 79, 85, 32, 76, 79, 83, 69, 46, 46, 46)
 
     def LedCtrlRaw(self, number, red, green, blue):
         if (number > 89 and number < 104) or number < 0 or number > 111:
@@ -59,6 +67,7 @@ class Launchpad():
     def LedCtrlXY(self, x, y, red, green, blue):
         if x < 0 or x > 8 or y < 0 or y > 8:
             return
+        x += OFFSET
         if x == 0:
             number = 104 + y
         else:
@@ -77,17 +86,17 @@ if __name__ == "__main__":
     LP = Launchpad()
 
     # Read test
-    t = Timer(3, exit, args=(1, ))
-    t.start()
-    while True:
-        time.sleep(0.001)
-        msg = LP.ReadXY()
-        if msg is not None:
-            print(msg)
+    # t = Timer(3, exit, args=(1, ))
+    # t.start()
+    # while True:
+    #     time.sleep(0.001)
+    #     msg = LP.ReadXY()
+    #     if msg is not None:
+    #         print(msg)
 
     # Write test
-    # for i in range(3):
-    #     LP.LedCtrlXY(1, 0, 63, 63, 0)
-    #     time.sleep(1)
-    #     LP.LedCtrlXY(1, 0, 0, 0, 0)
-    #     time.sleep(1)
+    for i in range(3):
+        LP.LedCtrlXY(1, 0, 63, 63, 0)
+        time.sleep(1)
+        LP.LedCtrlXY(1, 0, 0, 0, 0)
+        time.sleep(1)

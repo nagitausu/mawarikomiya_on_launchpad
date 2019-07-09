@@ -43,7 +43,7 @@ class Mawarikomiya():
         return traj
 
 if __name__ == "__main__":
-    MK = Mawarikomiya()
+    MK = Mawarikomiya([3,3])
     traj = MK.ReactPlayerMotion([2,2])
     print(traj)
     traj = MK.ReactPlayerMotion([3,3])
