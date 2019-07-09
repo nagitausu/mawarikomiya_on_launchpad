@@ -3,11 +3,11 @@ MAX_N = 8
 
 class Mawarikomiya():
 
-    def __init__(self):
+    def __init__(self, player_pos):
         self.field, self.edge = self.GetInitialField()
         self.dijk = dijkstra.Dijkstra(self.edge)
         self.pos = [7, 7]
-        self.player_pos = [3, 3]
+        self.player_pos = player_pos[:] 
     
     def GetInitialField(self):
         field = [[0] * MAX_N for _ in range(MAX_N)] 

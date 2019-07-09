@@ -52,8 +52,8 @@ class Launchpad():
         if (number > 89 and number < 104) or number < 0 or number > 111:
             return
         red = max(MIN_C, min(MAX_C, red))
-        green = max(MIN_C, min(MAX_C, red))
-        blue = max(MIN_C, min(MAX_C, red))
+        green = max(MIN_C, min(MAX_C, green))
+        blue = max(MIN_C, min(MAX_C, blue))
         self.midi_out.send_sysex(0, 32, 41, 2, 16, 11, number, red, green, blue)
 
     def LedCtrlXY(self, x, y, red, green, blue):
