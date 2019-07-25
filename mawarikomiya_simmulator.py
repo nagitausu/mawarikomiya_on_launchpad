@@ -54,7 +54,11 @@ LP = launchpad.Launchpad()
 LP.LedCtrlXY(player_pos[0], player_pos[1], 0, 0, 60)
 LP.LedCtrlXY(goal_pos[0], goal_pos[1], 30, 30, 0)
 
+cnt = 0
+speed = 0.1
 while True:
+    if cnt % 5 == 0 and cnt != 0:
+        speed /= 2.0
     msg = read_player_motion(LP)
     LP.LedCtrlXY(player_pos[0], player_pos[1], 0, 0, 0)
     LP.LedCtrlXY(msg[0], msg[1], 0, 0, 60)
@@ -66,4 +70,5 @@ while True:
         losing(LP, MK.pos)
 
     traj = MK.ReactPlayerMotion(player_pos)
-    draw_traj(LP, traj, goal_pos, 0.1)
+    draw_traj(LP, traj, goal_pos, speed)
+    cnt += 1

@@ -1,8 +1,9 @@
 import time
 import launchpad
+import kinkaigame_solver
 import random
 
-TRAJ_SPEED = 0.1
+TRAJ_SPEED = 0.05
 
 def draw_traj(LP, traj, speed):
     for i, (x, y) in enumerate(traj):
@@ -100,25 +101,33 @@ def losing(LP, mawari_pos):
     LP.LedScrollText("YOU LOSE...")
     exit()
 
-def finish(LP, gold):
+def finish(LP, gold, ans):
     time.sleep(1)
     LP.midi_out.send_sysex(0, 32, 41, 2, 4, 20, 109, 0, 4, \
                            89, 79, 85, 32, \
                            ord("G"), ord("O"), ord("T"), \
-                           ord(str(gold // 10)), ord(str(gold % 10)), \
-                           ord("G"), ord("O"), ord("L"), ord("D"), ord("!"))
+                           ord(" "), ord(str(gold // 10)), ord(str(gold % 10)), \
+                           ord("/"), ord(str(ans // 10)), ord(str(ans % 10)), \
+                           ord(" "), ord("G"), ord("O"), ord("L"), ord("D"), ord("!"))
     print(gold)
     exit()
 
 field = [[1] * 8 for _ in range(8)]
 machines = []
 machine_num = 5
+xset = set(); yset = set()
 for _ in range(machine_num):
-    machine = [random.randint(0, 7), random.randint(0, 7), 0]
-    while machine in machines:
-        machine = [random.randint(0, 7), random.randint(0, 7), 0]
+    x, y = random.randint(0, 7), random.randint(0, 7)
+    while x in xset:
+        x = random.randint(0, 7)
+    while y in yset:
+        y = random.randint(0, 7)
+    xset.add(x); yset.add(y)
+    machine = [x, y]
     machines.append(machine)
     field[machine[0]][machine[1]] = -1
+ans = kinkaigame_solver.solve(field, machines) - len(machines)
+print(ans)
 
 LP = launchpad.Launchpad()
 for i in range(8):
@@ -137,8 +146,8 @@ while True:
     gold += len(taken)
     for x, y in taken:
         field[x][y] = 0
-    LP.LedCtrlXY(msg[0], msg[1], 0, 0, 10)
+    LP.LedCtrlXY(msg[0], msg[1], 10, 10, 10)
     field[msg[0]][msg[1]] = 0
     used += 1
     if used == machine_num:
-        finish(LP, gold)
+        finish(LP, gold, ans)

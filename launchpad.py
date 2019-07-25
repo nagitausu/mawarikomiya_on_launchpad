@@ -54,7 +54,8 @@ class Launchpad():
         if text == "YOU WIN!!":
             self.midi_out.send_sysex(0, 32, 41, 2, 4, 20, 79, 0, 4, 89, 79, 85, 32, 87, 73, 78, 33)
         elif text == "YOU LOSE...":
-            self.midi_out.send_sysex(0, 32, 41, 2, 4, 20, 72, 0, 4, 89, 79, 85, 32, 76, 79, 83, 69, 46, 46, 46)
+            # self.midi_out.send_sysex(0, 32, 41, 2, 4, 20, 72, 0, 4, 89, 79, 85, 32, 76, 79, 83, 69, 46, 46, 46)
+            self.midi_out.send_sysex(0, 32, 41, 2, 4, 20, 72, 0, 4, 77, 65, 87, 65, 82, 73, 75, 79, 77, 73, 89, 65, 32, 87, 73, 78, 33)
 
     def LedCtrlRaw(self, number, red, green, blue):
         if (number > 89 and number < 104) or number < 0 or number > 111:
