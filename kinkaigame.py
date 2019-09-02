@@ -87,7 +87,7 @@ def winning(LP, player_pos):
         time.sleep(0.2)
         LP.LedCtrlXY(x, y, 0, 0, 0)
         time.sleep(0.2)
-    LP.LedScrollText("YOU WIN!!")
+    LP.LedScrollText("YOU WIN!!", 79)
     exit()
 
 def losing(LP, mawari_pos):
@@ -98,7 +98,7 @@ def losing(LP, mawari_pos):
         time.sleep(0.2)
         LP.LedCtrlXY(x, y, 0, 0, 0)
         time.sleep(0.2)
-    LP.LedScrollText("YOU LOSE...")
+    LP.LedScrollText("YOU LOSE...", 72)
     exit()
 
 def finish(LP, gold, ans):
