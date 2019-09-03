@@ -49,9 +49,8 @@ class Launchpad():
         else:
             return None
 
-    def LedScrollText(self, text, c):
-        # TODO: Add speed
-        ords = [0, 32, 41, 2, 4, 20, c, 0, 4]
+    def LedScrollText(self, text, color, loop=False, speed=4):
+        ords = [0, 32, 41, 2, 4, 20, color, loop, speed]
         for ch in text:
             ords.append(ord(ch))
         self.midi_out.send_sysex(*ords)
