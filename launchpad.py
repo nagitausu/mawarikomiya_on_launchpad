@@ -10,6 +10,9 @@ class Launchpad():
         self.midi_in = rtmidi2.MidiIn()
         self.midi_out = rtmidi2.MidiOut()
 
+        # Enable sysex return
+        self.midi_in.ignore_types(midi_sysex=False)
+
         device_name = "Launchpad MK2"
         try:
             index = self.midi_in.ports_matching(device_name + "*")[0]
