@@ -58,15 +58,18 @@ class Launchpad():
             ords.append(ord(ch))
         self.midi_out.send_sysex(*ords)
 
-    def LedCtrlRaw(self, number, red, green, blue):
+    def LedCtrlRaw(self, number, red, green=None, blue=None):
         if (number > 89 and number < 104) or number < 0 or number > 111:
             return
-        red = max(MIN_C, min(MAX_C, red))
-        green = max(MIN_C, min(MAX_C, green))
-        blue = max(MIN_C, min(MAX_C, blue))
-        self.midi_out.send_sysex(0, 32, 41, 2, 16, 11, number, red, green, blue)
+        if green is None:
+            self.midi_out.send_sysex(0, 32, 41, 2, 24, 10, number, red)
+        else:
+            red = max(MIN_C, min(MAX_C, red))
+            green = max(MIN_C, min(MAX_C, green))
+            blue = max(MIN_C, min(MAX_C, blue))
+            self.midi_out.send_sysex(0, 32, 41, 2, 16, 11, number, red, green, blue)
 
-    def LedCtrlXY(self, x, y, red, green, blue):
+    def LedCtrlXY(self, x, y, red, green=None, blue=None):
         if x < 0 or x > 8 or y < 0 or y > 8:
             return
         x += OFFSET
@@ -74,7 +77,10 @@ class Launchpad():
             number = 104 + y
         else:
             number = 91 - (10 * x) + y
-        self.LedCtrlRaw(number, red, green, blue)
+        if green is None:
+            self.LedCtrlRaw(number, red)
+        else:
+            self.LedCtrlRaw(number, red, green, blue)
 
     def LedAllOn(self, colorcode):
         self.midi_out.send_sysex(0, 32, 41, 2, 24, 14, colorcode)
