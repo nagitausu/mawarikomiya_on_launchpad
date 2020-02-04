@@ -14,7 +14,7 @@ def solve(field, machines):
                 val += dfs(x+1, x1, y+1, y1)
                 val += dfs(x0, x, y+1, y1)
                 val += dfs(x+1, x1, y0, y)
-                val += (x1 - x0) + (y1 - y0) - 1
+                val += (x1 - x0) + (y1 - y0) - 2
             ret = max(ret, val)
         memo[index] = ret
         return ret
@@ -23,5 +23,5 @@ def solve(field, machines):
 
 if __name__ == "__main__":
     field = [[1] * 6 for _ in range(4)]
-    machines = [[0,1], [1,3], [3,2]]
-    print(solve(field, machines) - len(machines))
+    machines = [[0, 1], [1, 3], [3, 2]]
+    print(solve(field, machines))

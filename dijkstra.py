@@ -1,6 +1,7 @@
 import heapq
 INF = 10**9
 
+
 class Dijkstra:
     def __init__(self, adj):
         self.adj = adj
